@@ -1,0 +1,12 @@
+<aura:documentation>
+	<aura:description>Text in description TAG</aura:description>
+	
+    <aura:example name="WelcomeToLightning" ref="c:Welcome_to_Lightning" label="Example for Welcom to Lightning Component">
+		Example Description of Welcome to Lightning
+	</aura:example>
+    
+    <aura:example name="RegistrationForm" ref="c:Registration_Component" label="Example fo the Student Form Component">
+		Example Description of Registration Form
+	</aura:example>
+    
+</aura:documentation>

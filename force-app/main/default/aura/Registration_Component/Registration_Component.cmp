@@ -1,0 +1,83 @@
+<aura:component controller="Udemy1_SaveRegistrationForm" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global" >
+    
+	
+    <!-- The attributes -->
+    <aura:attribute name="PageHeading" type="String" default="Registration Form for Students"/>
+    <aura:attribute name="xpto" type="Boolean" default="false"/>
+    <aura:attribute name="NameOfStudent" type="String" default=""/>
+    <aura:attribute name="NameOfParents" type="String" default=""/>
+    <aura:attribute name="StandardClass" type="String" default=""/>
+    <aura:attribute name="HoursOfStudy" type="Object[]"/>					<!-- type picklist, list of strings -->
+    <aura:attribute name="MobileNumber" type="Integer" default=""/>
+    <aura:attribute name="TakenCourseBefore" type="Boolean" default="false"/> 										<!-- will be a checkbox -->
+    <aura:attribute name="InterestedOnlineCourse" type="Boolean" default=""/> 										<!-- will be a radio button -->
+    
+    
+    <!-- Attributes to bind the user's response/input -->
+    <aura:attribute name="UserResponseHours" type="String" default=""/>
+    
+    <aura:attribute name="CheckboxValue" type="Boolean" default="false"/>
+    
+    <aura:attribute name="EducationalDetailList" type="List" default="[]"/>
+    
+    
+    <!--
+		Attribute to save data through DML operation -->
+    <aura:attribute name="RegForm" type="Registration_Form__c" default="{'sobjectType':'Registration_Form__c'}"/>
+    <aura:handler name="init" value="{!this}" action="{! c.doInit }" />
+    
+    <!--
+		The page structure -->
+    <!-- Header formatting -->
+    <div class="slds-m-top_xx-large slds-page-header slds-align_absolute-center slds-text-heading_large">
+        {!v.PageHeading}
+    </div><br/>
+    
+    <!-- Body formatting -->
+    <div class="slds-size_5-of-8">
+        <!-- <lightning:input label="Enter your Name" name="studentsName" value="{!v.NameOfStudent}"/> -->
+        <lightning:input label="Enter your Name" name="studentsName" value="{!v.RegForm.Name}"/><br/>
+        
+        <lightning:input label="Enter your Parent's Name" name="parentsName" value="{!v.RegForm.Parent_Name__c}"/><br/>
+        
+        <lightning:input label="Which Class do you study?" name="className" value="{!v.RegForm.Which_class__c}"/><br/>
+        
+        <lightning:select label="How many hours do you study per day?" name="hoursStudy" value="{!v.RegForm.Study_Hours__c}">
+            <aura:iteration items="{!v.HoursOfStudy}" var="hrs">
+                <option value="{! hrs.value }" text="{! hrs.label }"/>
+            </aura:iteration>
+        </lightning:select><br/>
+        
+        <lightning:input label="Enter your Mobile Number" type="telephone" name="mobileNumber" value="{!v.RegForm.Mobile_Number__c}"/>
+        
+        
+        <!-- ***************************
+			 Calling the child component
+			 *************************** -->
+        <hr/>
+        <aura:iteration items="{!v.EducationalDetailList}" var="item" indexVar="index">
+            <div>
+                <c:Add_Educational_Details EducationalDetailListInnerComponent="{!v.EducationalDetailList}" 
+                                           indexNo="{!index}"/> <hr/>
+            </div>
+        </aura:iteration>
+        
+        <lightning:button iconName="utility:add" variant="border-filled" label="Add Education Details"
+                          onclick="{!c.addDetails}"></lightning:button>
+        
+        <!-- *************************** --><br/><br/>
+        
+        <!-- Checkbox  -->
+        <lightning:input aura:id="checkBox" label="Are you available on weekends to attend classes?" type="checkbox" 
+                         name="firstCheckbox" onchange="{!c.onclickCheckbox}"/>
+        <!-- value="{!v.RegForm.Available_on_weekends__c}" // was not binded here but in the help function -->
+        
+        <aura:if isTrue="{!v.CheckboxValue}">
+            <br/> <i>That's Great!!</i> <br/>
+        </aura:if>
+        
+        <br/><lightning:button label="Submit" onclick="{!c.doSubmit}"></lightning:button>
+    </div>
+    
+</aura:component>

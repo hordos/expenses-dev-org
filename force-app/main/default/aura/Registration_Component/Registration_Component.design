@@ -1,0 +1,11 @@
+<design:component label="My Registration Component">
+	
+    <!-- Each design attribute must be linked with a component attribute defined in the component resource -->
+    <design:attribute name="PageHeading" label="Page Heading" 
+                      datasource="Registration Form for Students,
+                                  Registration Form for Girls,
+                                  Registration Form for Boys" description="Give heading to our page.">
+        
+    </design:attribute>
+    
+</design:component>
